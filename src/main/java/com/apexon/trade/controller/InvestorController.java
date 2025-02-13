@@ -3,6 +3,7 @@ package com.apexon.trade.controller;
 import java.util.List;
 
 import com.apexon.trade.model.KYCStatus;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class InvestorController {
 	InvestorService investorService;
 
 	@PostMapping("/registerInvestor")
-	public Investor registerInvestor(@RequestBody Investor investor) {
+	public Investor registerInvestor(@Valid @RequestBody Investor investor) {
 		return investorService.registerInvestor(investor);
 
 	}
