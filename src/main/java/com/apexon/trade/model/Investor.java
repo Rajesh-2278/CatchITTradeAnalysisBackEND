@@ -44,7 +44,7 @@ public class Investor {
 	private Long investedAmount = 0L;
 
 	@Enumerated(EnumType.STRING)
-	private KYCStatus kycStatus;
+	private KYCStatus kycStatus=KYCStatus.PENDING;
 
 	private Boolean emailNotifications;
 	private Boolean smsNotifications;

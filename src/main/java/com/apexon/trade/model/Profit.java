@@ -22,8 +22,31 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class Profit {
+    public Long getId() {
+        return id;
+    }
 
-	@Id
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<String> getXaxis() {
+        return xaxis;
+    }
+
+    public void setXaxis(List<String> xaxis) {
+        this.xaxis = xaxis;
+    }
+
+    public List<Integer> getYaxis() {
+        return yaxis;
+    }
+
+    public void setYaxis(List<Integer> yaxis) {
+        this.yaxis = yaxis;
+    }
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

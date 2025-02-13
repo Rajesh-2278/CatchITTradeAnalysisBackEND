@@ -32,4 +32,28 @@ public class NetWorth {
 
     @ElementCollection
     private List<Integer> yaxis;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<String> getXaxis() {
+        return xaxis;
+    }
+
+    public void setXaxis(List<String> xaxis) {
+        this.xaxis = xaxis;
+    }
+
+    public List<Integer> getYaxis() {
+        return yaxis;
+    }
+
+    public void setYaxis(List<Integer> yaxis) {
+        this.yaxis = yaxis;
+    }
 }
