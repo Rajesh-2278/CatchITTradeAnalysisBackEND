@@ -8,5 +8,5 @@ import com.apexon.trade.model.Investor;
 
 @Repository
 public interface InvestorRepository extends JpaRepository<Investor, Long>{
-
+    Investor findByEmail(String email);
 }
