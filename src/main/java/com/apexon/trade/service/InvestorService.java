@@ -1,5 +1,6 @@
 package com.apexon.trade.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.apexon.trade.model.*;
@@ -26,6 +27,7 @@ public class InvestorService {
 	}
 
 	public Investor registerInvestor(Investor investor) {
+		investor.setDateOfAccountopening(new Date());
 		return investorRepository.save(investor);
 	}
 

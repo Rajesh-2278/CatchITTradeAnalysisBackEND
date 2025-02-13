@@ -36,5 +36,44 @@ public class Company {
 	
 	@OneToOne
 	private Profit profit;
-	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public List<Investor> getInvestors() {
+		return investors;
+	}
+
+	public void setInvestors(List<Investor> investors) {
+		this.investors = investors;
+	}
+
+	public int getStockCount() {
+		return stockCount;
+	}
+
+	public void setStockCount(int stockCount) {
+		this.stockCount = stockCount;
+	}
+
+	public Profit getProfit() {
+		return profit;
+	}
+
+	public void setProfit(Profit profit) {
+		this.profit = profit;
+	}
 }

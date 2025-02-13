@@ -5,8 +5,10 @@ import java.util.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
-import org.aspectj.bridge.IMessage;
+//import javax.validation.constraints.*;
 
 @Entity
 @AllArgsConstructor
@@ -21,17 +23,24 @@ public class Investor {
 	private Long id;
 
 	@Column(length = 100)
+	@NotBlank(message = "First name is required")
 	private String firstname;
 	@Column(length = 75)
+	@NotBlank(message = "Last name is required")
 	private String lastName;
+	@NotBlank(message = "Email is required")
+	@Pattern(regexp = "^[A-Za-z0-9+_.-]+@(.+)$", message = "Email should be valid")
 	private String email;
 	private String password;
+	@NotBlank(message = "Phone number is required")
 	private String phoneNumber;
 	@Column(length = 500)
 	private String address;
 
+	@NotBlank(message = "Account Number is required")
 	private String accountNumber;
 	@Column(length = 10)
+	@NotBlank(message = "Pan Number is required")
 	private String panNumber;
 
 	@Enumerated(EnumType.STRING)
@@ -44,7 +53,7 @@ public class Investor {
 	private Long investedAmount = 0L;
 
 	@Enumerated(EnumType.STRING)
-	private KYCStatus kycStatus;
+	private KYCStatus kycStatus = KYCStatus.PENDING;
 
 	private Boolean emailNotifications;
 	private Boolean smsNotifications;
