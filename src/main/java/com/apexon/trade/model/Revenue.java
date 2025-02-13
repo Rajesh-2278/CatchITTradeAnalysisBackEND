@@ -6,13 +6,13 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,20 +21,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Company {
+public class Revenue {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String name;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	private int stockCount;
+    @ElementCollection
+    private List<String> xaxis;
 
-	@ManyToMany(mappedBy = "companies",fetch = FetchType.EAGER)
-	@JsonIgnore
-	private List<Investor> investors;
-	
-	@OneToOne
-	private Profit profit;
-	
+    @ElementCollection
+    private List<Integer> yaxis;
 }

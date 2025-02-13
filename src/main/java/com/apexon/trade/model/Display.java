@@ -34,10 +34,10 @@ public class Display {
 	    @ManyToOne
 	    @JoinColumn(name = "investor_id", nullable = false)
 	    @JsonIgnore
-	    private Investor investor;  // Relation to Investor
+	    private Investor investor; 
 
 	    @ManyToOne
 	    @JoinColumn(name = "company_id", nullable = false)
 	    @JsonIgnore
-	    private Company company;  // Relation to Company
+	    private Company company;  
 }

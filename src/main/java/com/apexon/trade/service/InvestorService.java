@@ -19,14 +19,14 @@ public class InvestorService {
 	InvestorRepository investorRepository;
 
 	public List<Display> getCompaniesByInvestorId(Long investorId) {
-		// Retrieve the investor by ID
+		
 		Investor investor = investorRepository.findById(investorId)
 				.orElseThrow(() -> new IllegalArgumentException("Investor not found"));
-		return List.copyOf(investor.getDisplyComapies()); // Return a copy of the set to avoid direct modification
+		return List.copyOf(investor.getDisplyComapies()); 
 	}
 
 	public Investor registerComany(Investor company) {
-		// TODO Auto-generated method stub
+		
 		return investorRepository.save(company);
 	}
 

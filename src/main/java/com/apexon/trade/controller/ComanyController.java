@@ -55,4 +55,10 @@ public class ComanyController {
 		return companyService.getCompanyById(id);
 
 	}
+	////Chart info
+//	@GetMapping("/getAllChartInfoByCompamyId/{id}")
+//	public List<Company> getAllChartInfoByCompamyId(@PathVariable Long id) {
+//		return companyService.getAllChartInfoByCompamyId(id);
+//
+//	}
 }
