@@ -33,6 +33,7 @@ public class Company {
 
 	private int stockCount;
 
+	private int stockPrice;
 	@ManyToMany(mappedBy = "companies", fetch = FetchType.EAGER)
 	@JsonIgnore
 	private List<Investor> investors;

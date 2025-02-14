@@ -46,22 +46,22 @@ public class ChartController {
 		ChartInfo savedChartData = chartService.saveChartData(chartData);
 		return savedChartData;
 	}
-	
+
 	@PostMapping("/addChartInfoToCompany")
-	public ChartInfo addChartInfoToCompany(@RequestParam Long companyId,@RequestParam Long profitId) {
-      return chartService.addChartInfoToCompany(companyId,profitId);
-		
+	public ChartInfo addChartInfoToCompany(@RequestParam Long companyId, @RequestParam Long profitId) {
+		return chartService.addChartInfoToCompany(companyId, profitId);
+
 	}
-	
+
 	@GetMapping("/{companyId}")
-    public ChartInfo getChartinfoByCompanyId(@PathVariable Long companyId) {
-        return chartService.getNetWorthByCompanyId(companyId);
-    }
-	
+	public ChartInfo getChartinfoByCompanyId(@PathVariable Long companyId) {
+		return chartService.getNetWorthByCompanyId(companyId);
+	}
+
 	@PutMapping("/{id}")
 	public ChartInfo updateChartData(@PathVariable("id") Long id, @RequestBody ChartInfo chartData) {
-	    
-	    return chartService.updateChartData(id,chartData,0);  // Assuming update logic exists in service
-	   
+
+		return chartService.updateChartData(id, chartData, 0); // Assuming update logic exists in service
+
 	}
 }

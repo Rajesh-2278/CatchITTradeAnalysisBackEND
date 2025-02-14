@@ -117,9 +117,9 @@ public class CompanyService {
 			throw new RuntimeException("Company with id " + id + " not found");
 		}
 
-		chartService.updateChartData(id, null,company.getStockCount());
+		chartService.updateChartData(id, null,company.getStockPrice());
 		// Update the company's name with the new value from the request body
-		existingCompany.setStockCount(company.getStockCount());
+		existingCompany.setStockPrice(company.getStockPrice());
 		return companyRepository.save(existingCompany);
 	}
 
