@@ -1,17 +1,18 @@
 package com.apexon.trade.model;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
@@ -22,23 +23,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Display {
+public class UserHistory {
 
-	 @Id
-	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-	    private String name;
-	    private int stockCount;
-	    private int totalInvestedMoney;
-	    private int stockPrice;
-	    @ManyToOne
-	    @JoinColumn(name = "investor_id", nullable = false)
-	    @JsonIgnore
-	    private Investor investor; 
+	private String companyName;
 
-	    @ManyToOne
-	    @JoinColumn(name = "company_id", nullable = false)
-	    @JsonIgnore
-	    private Company company;  
+	private int moneySpent;
+	private int stockCount;
+	@ManyToOne
+	private Investor investor;
+
+	private LocalDateTime dateTime;
+
 }

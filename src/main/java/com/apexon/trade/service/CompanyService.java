@@ -1,5 +1,6 @@
 package com.apexon.trade.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.hibernate.StaleObjectStateException;
@@ -9,9 +10,11 @@ import org.springframework.stereotype.Service;
 import com.apexon.trade.model.Company;
 import com.apexon.trade.model.Display;
 import com.apexon.trade.model.Investor;
+import com.apexon.trade.model.UserHistory;
 import com.apexon.trade.repository.CompanyRepository;
 import com.apexon.trade.repository.DisplayRepository;
 import com.apexon.trade.repository.InvestorRepository;
+import com.apexon.trade.repository.UserHistoryRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -26,9 +29,11 @@ public class CompanyService {
 
 	@Autowired
 	InvestorRepository investorRepository;
-	
+
 	@Autowired
 	ChartService chartService;
+	@Autowired
+	UserHistoryRepository historyRepository;
 
 	public List<Investor> getInvestorsByCompanyId(Long companyId) {
 		Company company = companyRepository.findById(companyId)
@@ -78,10 +83,21 @@ public class CompanyService {
 				break;
 			}
 		}
+//History
+		UserHistory userHistory = new UserHistory();
+		userHistory.setCompanyName(company.getName());
+		userHistory.setInvestor(investor);
+		userHistory.setDateTime(LocalDateTime.now());
+		userHistory.setMoneySpent(stocksToAssign * company.getStockPrice());
+		userHistory.setStockCount(stocksToAssign);
+		historyRepository.save(userHistory);
+		// History
 
 		if (display != null) {
 			// Update stock count of the existing Display
 			display.setStockCount(display.getStockCount() + stocksToAssign);
+			display.setTotalInvestedMoney(display.getStockCount() + stocksToAssign * company.getStockPrice());
+			display.setStockPrice(company.getStockPrice());
 			displayRepository.save(display); // Save the updated display
 		} else {
 			// Create a new Display if not found
@@ -90,6 +106,8 @@ public class CompanyService {
 			display.setCompany(company); // Set the company
 			display.setName(company.getName());
 			display.setStockCount(stocksToAssign);
+			display.setStockPrice(company.getStockPrice());
+			display.setTotalInvestedMoney(stocksToAssign * company.getStockPrice());
 			displayRepository.save(display); // Save the new display
 		}
 
@@ -117,7 +135,7 @@ public class CompanyService {
 			throw new RuntimeException("Company with id " + id + " not found");
 		}
 
-		chartService.updateChartData(id, null,company.getStockPrice());
+		chartService.updateChartData(id, null, company.getStockPrice());
 		// Update the company's name with the new value from the request body
 		existingCompany.setStockPrice(company.getStockPrice());
 		return companyRepository.save(existingCompany);

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.apexon.trade.model.Company;
 import com.apexon.trade.model.Display;
 import com.apexon.trade.model.Investor;
+import com.apexon.trade.model.UserHistory;
 import com.apexon.trade.service.InvestorService;
 
 @RestController
@@ -28,7 +29,11 @@ public class InvestorController {
 	    public List<Display> getCompaniesByInvestorId(@PathVariable Long investorId) {
 	        return investorService.getCompaniesByInvestorId(investorId);
 	    }
-
+	 @GetMapping("/getUserHistoryByInvestorId/{investorId}")
+	    public List<UserHistory> getUserHistoryByInvestorId(@PathVariable Long investorId) {
+	        return investorService.getUserHistoryByInvestorId(investorId);
+	    }
+	 
 	@PostMapping("/registerInvestor")
 	public Investor registerComany(@RequestBody Investor company) {
 		return investorService.registerComany(company);

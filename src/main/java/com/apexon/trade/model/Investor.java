@@ -40,5 +40,9 @@ public class Investor {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<Display> displyComapies=new ArrayList<>();
+	
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "investor")
+	@JsonIgnore
+	List<UserHistory> userHistories=new ArrayList<>();
 
 }
