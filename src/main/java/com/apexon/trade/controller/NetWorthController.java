@@ -18,41 +18,37 @@ import com.apexon.trade.model.Company;
 import com.apexon.trade.model.Display;
 import com.apexon.trade.model.Investor;
 import com.apexon.trade.model.NetWorth;
+import com.apexon.trade.model.Profit;
 import com.apexon.trade.service.ChartService;
+import com.apexon.trade.service.CompanyService;
 import com.apexon.trade.service.InvestorService;
+import com.apexon.trade.service.NetWorthService;
+import com.apexon.trade.service.ProfitService;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/chart")
-public class ChartController {
+@RequestMapping("/netWorth")
+public class NetWorthController {
 
 	@Autowired
-	private ChartService chartService;
+	private NetWorthService netWorthService;
 
-//	@GetMapping("/{id}")
-//	public ChartInfo getChartData(@PathVariable Long id) {
-//		ChartInfo chartInfo = chartService.findById(id);
-//		if (chartInfo == null) {
-//			return null;
-//		}
-//		return chartInfo;
-//	}
-
-	// Save chart data (POST)
 	@PostMapping
-	public ChartInfo saveChartData(@RequestBody ChartInfo chartData) {
+	public NetWorth saveNetWorth(@RequestBody NetWorth netWorth) {
 
-		ChartInfo savedChartData = chartService.saveChartData(chartData);
-		return savedChartData;
+		return netWorthService.saveNetWorth(netWorth);
+		 
 	}
-	@PostMapping("/addChartInfoToCompany")
-	public ChartInfo addChartInfoToCompany(@RequestParam Long companyId,@RequestParam Long profitId) {
-      return chartService.addChartInfoToCompany(companyId,profitId);
+
+	@PostMapping("/addNetWorthInfoToCompany")
+	public NetWorth addProfitInfoToCompany(@RequestParam Long companyId,@RequestParam Long profitId) {
+      return netWorthService.addNetWorthInfoToCompany(companyId,profitId);
 		
 	}
 	
 	@GetMapping("/{companyId}")
-    public ChartInfo getChartinfoByCompanyId(@PathVariable Long companyId) {
-        return chartService.getNetWorthByCompanyId(companyId);
+    public NetWorth getNetWorthByCompanyId(@PathVariable Long companyId) {
+        return netWorthService.getNetWorthByCompanyId(companyId);
     }
+
 }
