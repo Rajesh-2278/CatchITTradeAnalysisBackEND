@@ -46,14 +46,8 @@ public class ProfitService {
 		// Fetch the Profit by its ID
 		Profit profit = profitRepository.findById(profitId)
 				.orElseThrow(() -> new RuntimeException("Profit not found with id: " + profitId));
-
-		// Associate the Profit with the Company
 		company.setProfit(profit);
-
-		// Save the updated Company
 		companyRepository.save(company);
-
-		// Return the Profit object (or the Company object if you prefer)
 		return profit;
 	}
 

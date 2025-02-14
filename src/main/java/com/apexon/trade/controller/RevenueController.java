@@ -18,41 +18,39 @@ import com.apexon.trade.model.Company;
 import com.apexon.trade.model.Display;
 import com.apexon.trade.model.Investor;
 import com.apexon.trade.model.NetWorth;
+import com.apexon.trade.model.Profit;
+import com.apexon.trade.model.Revenue;
+import com.apexon.trade.repository.RevenueRepository;
 import com.apexon.trade.service.ChartService;
+import com.apexon.trade.service.CompanyService;
 import com.apexon.trade.service.InvestorService;
+import com.apexon.trade.service.NetWorthService;
+import com.apexon.trade.service.ProfitService;
+import com.apexon.trade.service.RevenueService;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/chart")
-public class ChartController {
+@RequestMapping("/revenue")
+public class RevenueController {
 
 	@Autowired
-	private ChartService chartService;
+	private RevenueService revenueService;
 
-//	@GetMapping("/{id}")
-//	public ChartInfo getChartData(@PathVariable Long id) {
-//		ChartInfo chartInfo = chartService.findById(id);
-//		if (chartInfo == null) {
-//			return null;
-//		}
-//		return chartInfo;
-//	}
-
-	// Save chart data (POST)
 	@PostMapping
-	public ChartInfo saveChartData(@RequestBody ChartInfo chartData) {
+	public Revenue saveNetWorth(@RequestBody Revenue revenue) {
 
-		ChartInfo savedChartData = chartService.saveChartData(chartData);
-		return savedChartData;
+		return revenueService.saveRevenue(revenue);
 	}
-	@PostMapping("/addChartInfoToCompany")
-	public ChartInfo addChartInfoToCompany(@RequestParam Long companyId,@RequestParam Long profitId) {
-      return chartService.addChartInfoToCompany(companyId,profitId);
-		
+
+	@PostMapping("/addRevenueInfoToCompany")
+	public Revenue addRevenueInfoToCompany(@RequestParam Long companyId, @RequestParam Long profitId) {
+		return revenueService.addRevenueInfoToCompany(companyId, profitId);
+
 	}
-	
+
 	@GetMapping("/{companyId}")
-    public ChartInfo getChartinfoByCompanyId(@PathVariable Long companyId) {
-        return chartService.getNetWorthByCompanyId(companyId);
-    }
+	public Revenue getNetWorthByCompanyId(@PathVariable Long companyId) {
+		return revenueService.getRevenueByCompanyId(companyId);
+	}
+
 }
