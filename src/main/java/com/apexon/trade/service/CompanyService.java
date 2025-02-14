@@ -26,6 +26,9 @@ public class CompanyService {
 
 	@Autowired
 	InvestorRepository investorRepository;
+	
+	@Autowired
+	ChartService chartService;
 
 	public List<Investor> getInvestorsByCompanyId(Long companyId) {
 		Company company = companyRepository.findById(companyId)
@@ -101,6 +104,23 @@ public class CompanyService {
 		}
 
 		investorRepository.save(investor);
+	}
+
+	public Company updateCompany(Long id, Company company) {
+		// TODO Auto-generated method stub
+		// Retrieve the company by id
+		Company existingCompany = companyRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Company not present"));
+
+		if (existingCompany == null) {
+			// Handle case when the company doesn't exist (e.g., return an error response)
+			throw new RuntimeException("Company with id " + id + " not found");
+		}
+
+		chartService.updateChartData(id, null,company.getStockCount());
+		// Update the company's name with the new value from the request body
+		existingCompany.setStockCount(company.getStockCount());
+		return companyRepository.save(existingCompany);
 	}
 
 }

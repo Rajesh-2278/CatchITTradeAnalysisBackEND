@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,6 +46,7 @@ public class ChartController {
 		ChartInfo savedChartData = chartService.saveChartData(chartData);
 		return savedChartData;
 	}
+	
 	@PostMapping("/addChartInfoToCompany")
 	public ChartInfo addChartInfoToCompany(@RequestParam Long companyId,@RequestParam Long profitId) {
       return chartService.addChartInfoToCompany(companyId,profitId);
@@ -55,4 +57,11 @@ public class ChartController {
     public ChartInfo getChartinfoByCompanyId(@PathVariable Long companyId) {
         return chartService.getNetWorthByCompanyId(companyId);
     }
+	
+	@PutMapping("/{id}")
+	public ChartInfo updateChartData(@PathVariable("id") Long id, @RequestBody ChartInfo chartData) {
+	    
+	    return chartService.updateChartData(id,chartData,0);  // Assuming update logic exists in service
+	   
+	}
 }
