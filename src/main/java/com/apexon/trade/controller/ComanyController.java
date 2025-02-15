@@ -34,6 +34,15 @@ public class ComanyController {
         return "Stocks assigned successfully to the investor!";
     }
 	
+	@PostMapping("/sellStocks")
+    public String sellStocksFromInvestor(
+            @RequestParam Long companyId, 
+            @RequestParam Long investorId, 
+            @RequestParam int stocksToAssign) {
+        
+        companyService.sellStocksFromInvestor(companyId, investorId, stocksToAssign);
+        return "Stocks assigned successfully to the investor!";
+    }
 	@GetMapping("/getInvestorsByCompanyId/{companyId}")
 	public List<Investor> getInvestorsByCompanyId(@PathVariable Long companyId) {
 		return companyService.getInvestorsByCompanyId(companyId);
