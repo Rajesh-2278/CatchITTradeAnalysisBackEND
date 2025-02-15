@@ -8,7 +8,10 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -44,5 +47,8 @@ public class Investor {
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "investor")
 	@JsonIgnore
 	List<UserHistory> userHistories=new ArrayList<>();
+	
+	@Enumerated(EnumType.STRING)
+	KYCStatus kycStatus=KYCStatus.PENDING;
 
 }

@@ -30,7 +30,7 @@ public class UserHistory {
 	private Long id;
 
 	private String companyName;
-
+	private String color;
 	private int moneySpent;
 	private int stockCount;
 	@ManyToOne

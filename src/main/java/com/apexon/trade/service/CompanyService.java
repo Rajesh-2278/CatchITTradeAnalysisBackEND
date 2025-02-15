@@ -37,7 +37,7 @@ public class CompanyService {
 	ChartService chartService;
 	@Autowired
 	UserHistoryRepository historyRepository;
-	
+
 	@Autowired
 	ChartRepository chartRepository;
 
@@ -50,7 +50,8 @@ public class CompanyService {
 
 	public Company registerComany(Company company) {
 		// TODO Auto-generated method stub
-		
+		ChartInfo c = new ChartInfo();
+		chartRepository.save(c);
 		return companyRepository.save(company);
 	}
 
@@ -62,9 +63,9 @@ public class CompanyService {
 
 	public Company getCompanyById(Long id) {
 		// TODO Auto-generated method stub
-		ChartInfo chartInfo=new ChartInfo();
-		List<String> x=new ArrayList<>();
-		List<Integer> y=new ArrayList<>();
+		ChartInfo chartInfo = new ChartInfo();
+		List<String> x = new ArrayList<>();
+		List<Integer> y = new ArrayList<>();
 		chartInfo.setXaxis(x);
 		chartInfo.setYaxis(y);
 		chartRepository.save(chartInfo);
@@ -138,53 +139,61 @@ public class CompanyService {
 	}
 
 	@Transactional
-	public void sellStocksFromInvestor(Long companyId, Long investorId, int stocksToSell) {
-	    Company company = companyRepository.findById(companyId)
-	            .orElseThrow(() -> new IllegalArgumentException("Company not found"));
+	public void sellStocksFromInvestor(Long displayId, Long investorId, int stocksToSell) {
+		Investor investor = investorRepository.findById(investorId)
+				.orElseThrow(() -> new IllegalArgumentException("Investor not found"));
+		Display display = displayRepository.findById(displayId)
+				.orElseThrow(() -> new IllegalArgumentException("Display not found"));
 
-	    // Fetch the investor from the database
-	    Investor investor = investorRepository.findById(investorId)
-	            .orElseThrow(() -> new IllegalArgumentException("Investor not found"));
+		if (display == null || display.getStockCount() < stocksToSell) {
+			throw new IllegalArgumentException("Not enough stocks available for this investor to sell.");
+		}
 
-	    // Find the display for this investor and company combination
-	    Display display = null;
-	    for (Display var : investor.getDisplyComapies()) {
-	        if (var.getInvestor().getId().equals(investorId) && var.getCompany().getId().equals(companyId)) {
-	            display = var; // Found the display
-	            break;
-	        }
-	    }
+		Long k = display.getCompany().getId();
+		System.out.println(k);
+		Company company = companyRepository.findById(k)
+				.orElseThrow(() -> new IllegalArgumentException("Company not found kk"));
+		// Fetch the investor from the database
 
-	    if (display == null || display.getStockCount() < stocksToSell) {
-	        throw new IllegalArgumentException("Not enough stocks available for this investor to sell.");
-	    }
+		// Find the display for this investor and company combination
+		// Display display = null;
+		for (Display var : investor.getDisplyComapies()) {
+			if (var.getInvestor().getId().equals(investorId) && var.getCompany().getId().equals(displayId)) {
+				display = var; // Found the display
+				break;
+			}
+		}
 
-	    // Update the stock count of the company
-	    company.setStockCount(company.getStockCount() + stocksToSell);  // Company receives the stocks back
-	    companyRepository.save(company);
+		// Update the stock count of the company
+		// Company receives the stocks back
+		company.setStockCount(company.getStockCount() + stocksToSell);
+		companyRepository.save(company);
 
-	    // Update the stock count of the display (investor's holdings)
-	    display.setStockCount(display.getStockCount() - stocksToSell);
-	    display.setTotalInvestedMoney(display.getStockCount() * company.getStockPrice()); // Adjust total invested money
-	    displayRepository.save(display);
+		// Update the stock count of the display (investor's holdings)
+		display.setStockCount(display.getStockCount() - stocksToSell);
+		// display.setTotalInvestedMoney(display.getStockCount() *
+		// company.getStockPrice()); // Adjust total invested money
+		displayRepository.save(display);
 
-	    // History for the sale
-	    UserHistory userHistory = new UserHistory();
-	    userHistory.setCompanyName(company.getName());
-	    userHistory.setInvestor(investor);
-	    userHistory.setDateTime(LocalDateTime.now());
-	    userHistory.setMoneySpent(stocksToSell * company.getStockPrice());  // This is the money the investor will receive from selling
-	    userHistory.setStockCount(-stocksToSell);  // Negative since this is a sale
-	    historyRepository.save(userHistory);
+		// History for the sale
+		UserHistory userHistory = new UserHistory();
+		userHistory.setCompanyName(company.getName());
+		userHistory.setColor("red");
+		userHistory.setInvestor(investor);
+		userHistory.setDateTime(LocalDateTime.now());
+		userHistory.setMoneySpent(stocksToSell * company.getStockPrice()); // This is the money the investor will
+																			// receive from selling
+		userHistory.setStockCount(-stocksToSell); // Negative since this is a sale
+		historyRepository.save(userHistory);
 
-	    // Remove the display if the investor has no stocks left in the company
-	    if (display.getStockCount() == 0) {
-	        investor.getDisplyComapies().remove(display);  // Remove the display from investor's list
-	        displayRepository.delete(display);  // Optionally, delete the display from the DB
-	    }
+		// Remove the display if the investor has no stocks left in the company
+		if (display.getStockCount() == 0) {
+			investor.getDisplyComapies().remove(display); // Remove the display from investor's list
+			displayRepository.delete(display); // Optionally, delete the display from the DB
+		}
 
-	    // Save the updated investor details
-	    investorRepository.save(investor);
+		// Save the updated investor details
+		investorRepository.save(investor);
 	}
 
 	public Company updateCompany(Long id, Company company) {

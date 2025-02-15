@@ -1,6 +1,7 @@
 package com.apexon.trade.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.apexon.trade.model.Company;
 import com.apexon.trade.model.Display;
 import com.apexon.trade.model.Investor;
+import com.apexon.trade.model.KYCStatus;
 import com.apexon.trade.model.UserHistory;
 import com.apexon.trade.model.Investor;
 import com.apexon.trade.repository.CompanyRepository;
@@ -48,4 +50,11 @@ public class InvestorService {
 		return List.copyOf(investor.getUserHistories());
 	}
 
+	public List<Investor> getPendingInvestors()
+	{
+ 
+		return investorRepository.findAll().stream()
+				.filter(investor -> KYCStatus.PENDING.equals(investor.getKycStatus()))
+			.collect(Collectors.toList());
+	}
 }
