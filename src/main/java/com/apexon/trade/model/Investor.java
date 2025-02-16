@@ -35,6 +35,7 @@ public class Investor {
 
 	private String name;
 	private String email;
+	private Long myFunds;
 
 	@ManyToMany
 	@JsonIgnore

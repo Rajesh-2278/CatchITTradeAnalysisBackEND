@@ -55,6 +55,7 @@ public class CompanyService {
 		return companyRepository.save(company);
 	}
 
+	
 	public List<Company> listAllCompanies() {
 		// TODO Auto-generated method stub
 		List<Company> ll = companyRepository.findAll();
@@ -134,7 +135,10 @@ public class CompanyService {
 		if (!investor.getCompanies().contains(company)) {
 			investor.getCompanies().add(company);
 		}
-
+		
+		long MoneyLeft= investor.getMyFunds()- (company.getStockPrice()*stocksToAssign);
+		//investor.setMyFunds(12l);
+		investor.setMyFunds(MoneyLeft);
 		investorRepository.save(investor);
 	}
 
@@ -193,6 +197,8 @@ public class CompanyService {
 		}
 
 		// Save the updated investor details
+		long moneyAnailableAfterSell=investor.getMyFunds()+company.getStockPrice()*stocksToSell;
+		investor.setMyFunds(moneyAnailableAfterSell);
 		investorRepository.save(investor);
 	}
 
