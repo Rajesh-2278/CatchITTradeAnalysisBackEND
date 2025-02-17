@@ -19,20 +19,24 @@ import lombok.Setter;
 @Component
 public class CompanyMapper {
 
-	 public Company convert(Map<?, ?> map) {
-	        Company company = new Company();
-	        company.setSector(String.valueOf(map.get("Sector")));
-	        company.setTickerSymbol(String.valueOf(map.get("Symbol")));
-	        company.setName(String.valueOf(map.get("Name")));
-	        company.setDescription(String.valueOf(map.get("Description")));
-	        company.setAddress(String.valueOf(map.get("Address")));
-	        company.setStockExchange(String.valueOf(map.get("Exchange")));
-	        company.setIndustry(String.valueOf(map.get("Industry")));
-	        company.setMarketCap(Long.valueOf((String) map.get("MarketCapitalization")));
-	        company.setStockCount(Long.valueOf((String) map.get("SharesOutstanding")));
-	        company.setCountry(String.valueOf(map.get("Country")));
-	        company.setOfficialSite(String.valueOf(map.get("OfficialSite")));
-	        return company;
-	    }
+	public Company convert(Map<?, ?> map) {
+		Company company = new Company();
+		company.setSector(String.valueOf(map.get("Sector")));
+		company.setTickerSymbol(String.valueOf(map.get("Symbol")));
+		company.setName(String.valueOf(map.get("Name")));
+		company.setDescription(String.valueOf(map.get("Description")));
+		company.setAddress(String.valueOf(map.get("Address")));
+		company.setStockExchange(String.valueOf(map.get("Exchange")));
+		company.setIndustry(String.valueOf(map.get("Industry")));
+		company.setMarketCap(Long.valueOf((String) map.get("MarketCapitalization")));
+		company.setStockCount(Long.valueOf((String) map.get("SharesOutstanding")));
+		company.setCountry(String.valueOf(map.get("Country")));
+		company.setQuarterlyRevenueGrowthYOY(String.valueOf(map.get("QuarterlyRevenueGrowthYOY")));
+		company.setQuarterlyEarningsGrowthYOY(String.valueOf(map.get("QuarterlyEarningsGrowthYOY")));
+		company.setOfficialSite(String.valueOf(map.get("OfficialSite")));
+		company.setDay200MovingAverage(String.valueOf(map.get("200DayMovingAverage")));
+		company.setDay50MovingAverage(String.valueOf(map.get("50DayMovingAverage")));
+		return company;
+	}
 
 }

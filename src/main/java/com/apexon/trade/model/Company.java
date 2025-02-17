@@ -51,6 +51,10 @@ public class Company {
 	private Long marketCap;
 
 	private String stockExchange;
+	private String QuarterlyRevenueGrowthYOY;
+	private String QuarterlyEarningsGrowthYOY;
+	private String Day50MovingAverage;
+	private String Day200MovingAverage;
 	
 	private String Country;
 	private String OfficialSite;
