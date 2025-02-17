@@ -57,4 +57,34 @@ public class InvestorService {
 				.filter(investor -> KYCStatus.PENDING.equals(investor.getKycStatus()))
 			.collect(Collectors.toList());
 	}
+	
+	public Investor updateInvestor(Long id, Investor investorDetails){
+		//Investor existingInvestor = getInvestorById(id);
+		Investor existingInvestor = investorRepository.findById(id).orElseThrow(() -> new RuntimeException("Investor not present"));
+		if (investorDetails.getFirstName() != null){
+			existingInvestor.setFirstName(investorDetails.getFirstName());
+		}
+		if (investorDetails.getLastName() != null) {
+			existingInvestor.setLastName(investorDetails.getLastName());
+		}
+		if (investorDetails.getPhoneNumber() != null) {
+			existingInvestor.setPhoneNumber(investorDetails.getPhoneNumber());
+		}
+		if (investorDetails.getPanNumber() != null) {
+			existingInvestor.setPanNumber(investorDetails.getPanNumber());
+		}
+		if (investorDetails.getAccountNumber() != null) {
+			existingInvestor.setAccountNumber(investorDetails.getAccountNumber());
+		}
+		if (investorDetails.getAddress() != null) {
+			existingInvestor.setAddress(investorDetails.getAddress());
+		}
+		return investorRepository.save(existingInvestor);
+	}
+
+	public Investor addFunds(Long id, Long amtAdded){
+		Investor existingInvestor = investorRepository.findById(id).orElseThrow(() -> new RuntimeException("Investor not present"));
+		existingInvestor.setMyFunds(existingInvestor.getMyFunds() + amtAdded);
+		return investorRepository.save(existingInvestor);
+	}
 }

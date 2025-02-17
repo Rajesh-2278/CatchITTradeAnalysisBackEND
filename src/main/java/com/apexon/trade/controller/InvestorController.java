@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.apexon.trade.model.AmountAddMapper;
 import com.apexon.trade.model.Company;
 import com.apexon.trade.model.Display;
 import com.apexon.trade.model.Investor;
@@ -79,5 +81,17 @@ public class InvestorController {
 		r1.setMyFunds(investor.getMyFunds()+k);
 
 		return investorRepository.save(r1);
+	}
+	
+	@PatchMapping("/{id}")
+	public Investor updateInvestor(@PathVariable Long id, @RequestBody Investor investorDetails){
+		return investorService.updateInvestor(id, investorDetails);
+	}
+
+	@PutMapping("/{id}/add-funds")
+	public Investor addFunds(@PathVariable Long id, @RequestBody AmountAddMapper amountAddMapper) {
+		// Call the service method to add funds
+		Investor updatedInvestor = investorService.addFunds(id, amountAddMapper.getAmountToAdd());
+		return updatedInvestor;
 	}
 }
