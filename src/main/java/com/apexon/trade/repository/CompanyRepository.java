@@ -1,5 +1,7 @@
 package com.apexon.trade.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,5 +14,7 @@ public interface CompanyRepository extends JpaRepository<Company, Long>{
 	Company findByNetWorth(NetWorth netWorth);
 
 	Company findByNetWorthId(Long id);
+
+	Optional<Company> findByTickerSymbol(String symbol);
 
 }

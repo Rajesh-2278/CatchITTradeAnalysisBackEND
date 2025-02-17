@@ -66,9 +66,18 @@ public class InvestorController {
 
 		return investorRepository.save(r1);
 	}
-	
+
 	@GetMapping("/getPendingKycInvestors")
-	public List<Investor> getPendingInvestors(){
+	public List<Investor> getPendingInvestors() {
 		return investorService.getPendingInvestors();
+	}
+
+	@PutMapping("/updateMyFunds/{investorId}")
+	public Investor updateMyFunds(@PathVariable Long investorId, @RequestBody Investor investor) {
+		Investor r1 = investorRepository.findById(investorId).get();
+		Long k=r1.getMyFunds();
+		r1.setMyFunds(investor.getMyFunds()+k);
+
+		return investorRepository.save(r1);
 	}
 }

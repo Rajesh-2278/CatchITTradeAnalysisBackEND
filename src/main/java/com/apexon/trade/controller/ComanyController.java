@@ -1,6 +1,8 @@
 package com.apexon.trade.controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,24 +27,21 @@ public class ComanyController {
 	CompanyService companyService;
 
 	@PostMapping("/assignStocks")
-    public String assignStocksToInvestor(
-            @RequestParam Long companyId, 
-            @RequestParam Long investorId, 
-            @RequestParam int stocksToAssign) {
-        
-        companyService.assignStocksToInvestor(companyId, investorId, stocksToAssign);
-        return "Stocks assigned successfully to the investor!";
-    }
-	
+	public String assignStocksToInvestor(@RequestParam Long companyId, @RequestParam Long investorId,
+			@RequestParam int stocksToAssign) {
+
+		companyService.assignStocksToInvestor(companyId, investorId, stocksToAssign);
+		return "Stocks assigned successfully to the investor!";
+	}
+
 	@PostMapping("/sellStocks")
-    public String sellStocksFromInvestor(
-            @RequestParam Long companyId, 
-            @RequestParam Long investorId, 
-            @RequestParam int stocksToAssign) {
-        
-        companyService.sellStocksFromInvestor(companyId, investorId, stocksToAssign);
-        return "Stocks assigned successfully to the investor!";
-    }
+	public String sellStocksFromInvestor(@RequestParam Long companyId, @RequestParam Long investorId,
+			@RequestParam int stocksToAssign) {
+
+		companyService.sellStocksFromInvestor(companyId, investorId, stocksToAssign);
+		return "Stocks assigned successfully to the investor!";
+	}
+
 	@GetMapping("/getInvestorsByCompanyId/{companyId}")
 	public List<Investor> getInvestorsByCompanyId(@PathVariable Long companyId) {
 		return companyService.getInvestorsByCompanyId(companyId);
@@ -56,8 +55,8 @@ public class ComanyController {
 
 	@PutMapping("/updateCompany/{id}")
 	public Company updateCompanyName(@PathVariable("id") Long id, @RequestBody Company company) {
-	    
-	    return companyService.updateCompany(id,company);
+
+		return companyService.updateCompany(id, company);
 	}
 
 	@GetMapping("/listAllCompanies")
@@ -71,10 +70,15 @@ public class ComanyController {
 		return companyService.getCompanyById(id);
 
 	}
-	////Chart info
+	//// Chart info
 //	@GetMapping("/getAllChartInfoByCompamyId/{id}")
 //	public List<Company> getAllChartInfoByCompamyId(@PathVariable Long id) {
 //		return companyService.getAllChartInfoByCompamyId(id);
 //
 //	}
+
+	@PostMapping("/{symbol}")
+	public Company addCompanyFromAPI(@PathVariable String symbol) {
+		return companyService.addCompanyFromAPI(symbol);
+	}
 }

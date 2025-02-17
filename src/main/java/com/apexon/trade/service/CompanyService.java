@@ -3,10 +3,13 @@ package com.apexon.trade.service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.hibernate.StaleObjectStateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 
 import com.apexon.trade.model.ChartInfo;
 import com.apexon.trade.model.Company;
@@ -37,6 +40,10 @@ public class CompanyService {
 	ChartService chartService;
 	@Autowired
 	UserHistoryRepository historyRepository;
+	@Autowired
+	com.apexon.trade.model.CompanyMapper companyMapper;
+
+	RestClient restClient = RestClient.builder().build();
 
 	@Autowired
 	ChartRepository chartRepository;
@@ -55,7 +62,6 @@ public class CompanyService {
 		return companyRepository.save(company);
 	}
 
-	
 	public List<Company> listAllCompanies() {
 		// TODO Auto-generated method stub
 		List<Company> ll = companyRepository.findAll();
@@ -135,9 +141,9 @@ public class CompanyService {
 		if (!investor.getCompanies().contains(company)) {
 			investor.getCompanies().add(company);
 		}
-		
-		long MoneyLeft= investor.getMyFunds()- (company.getStockPrice()*stocksToAssign);
-		//investor.setMyFunds(12l);
+
+		long MoneyLeft = investor.getMyFunds() - (company.getStockPrice() * stocksToAssign);
+		// investor.setMyFunds(12l);
 		investor.setMyFunds(MoneyLeft);
 		investorRepository.save(investor);
 	}
@@ -197,7 +203,7 @@ public class CompanyService {
 		}
 
 		// Save the updated investor details
-		long moneyAnailableAfterSell=investor.getMyFunds()+company.getStockPrice()*stocksToSell;
+		long moneyAnailableAfterSell = investor.getMyFunds() + company.getStockPrice() * stocksToSell;
 		investor.setMyFunds(moneyAnailableAfterSell);
 		investorRepository.save(investor);
 	}
@@ -205,6 +211,7 @@ public class CompanyService {
 	public Company updateCompany(Long id, Company company) {
 		// TODO Auto-generated method stub
 		// Retrieve the company by id
+		chartService.addChartInfoToCompany(id, id);
 		Company existingCompany = companyRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Company not present"));
 
@@ -217,6 +224,31 @@ public class CompanyService {
 		// Update the company's name with the new value from the request body
 		existingCompany.setStockPrice(company.getStockPrice());
 		return companyRepository.save(existingCompany);
+	}
+
+	public Company addCompanyFromAPI(String symbol) {
+		ChartInfo c = new ChartInfo();
+		chartRepository.save(c);
+		Optional<Company> companyFromDB = companyRepository.findByTickerSymbol(symbol);
+
+		if (companyFromDB.isPresent()) {
+			return companyFromDB.get();
+		}
+
+		String url = "https://www.alphavantage.co/query?function=OVERVIEW&symbol=" + symbol
+				+ "&apikey=HD4R7SOPZABSRMPW";
+
+		Map<?, ?> companyMap = restClient.get().uri(url).retrieve().body(Map.class);
+
+		Company company = null;
+		if (companyMap != null) {
+			company = companyMapper.convert(companyMap);
+			// dailyPriceService.refreshCompanyPrice(symbol);
+			companyRepository.save(company);
+			// newsService.addNews(symbol);
+		}
+
+		return company;
 	}
 
 }
